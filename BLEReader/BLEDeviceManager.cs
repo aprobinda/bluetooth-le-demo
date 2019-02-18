@@ -163,7 +163,8 @@ namespace BLEReader
                             //LogDeviceInfoProperties(deviceFromAddress);
 
                             #region Connect and get GattServices
-                            GattDeviceServicesResult result = await deviceFromAddress.GetGattServicesAsync(BluetoothCacheMode.Uncached);
+                            //GattDeviceServicesResult result = await deviceFromAddress.GetGattServicesAsync(BluetoothCacheMode.Uncached);
+                            GattDeviceServicesResult result = await deviceFromAddress.GetGattServicesForUuidAsync(GattServiceUuids.BloodPressure, BluetoothCacheMode.Uncached);
                             if (result.Status == GattCommunicationStatus.Success)
                             {// 2. At this stage, the device is connected and does not send advertisements anymore
                                 Log.Instance.Debug("2. ConnectionStatus after GetGattServicesAsync: {0}", deviceFromAddress.ConnectionStatus);
@@ -180,6 +181,7 @@ namespace BLEReader
                                 Log.Instance.Debug("Device {0} is unreachable", deviceFromAddress.Name);
                             }
                             #endregion
+                            trackedAddresses.Remove(address);
                         }
                     }
                 }
